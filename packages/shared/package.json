@@ -1,0 +1,14 @@
+{
+  "name": "@games/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "父子应用之间的共享契约：生命周期、事件、命令、状态机、API DTO",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit"
+  }
+}

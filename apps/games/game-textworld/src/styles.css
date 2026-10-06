@@ -1,0 +1,639 @@
+/**
+ * 文字世界的界面。
+ *
+ * 设计令牌与主应用同源（4/8pt 网格、三层圆角、两层阴影、≤16 色），
+ * 全部带 --tw- 前缀 —— 子应用不依赖宿主的任何全局样式，
+ * 独立运行与被 qiankun 托管时长一个样。
+ */
+
+.tw-app {
+  --tw-bg: #ffffff;
+  --tw-bg-soft: #f6f7fb;
+  --tw-border: #e4e6f1;
+  --tw-border-strong: #d3d6e6;
+  --tw-text: #14162b;
+  --tw-muted: #676e86;
+  --tw-brand: #5b54f2;
+  --tw-brand-600: #4a43e0;
+  --tw-brand-soft: #eef0ff;
+  --tw-success-text: #0c7a40;
+  --tw-success-soft: #e6f6ed;
+  --tw-shadow-sm: 0 1px 2px rgba(20, 22, 43, 0.04), 0 1px 3px rgba(20, 22, 43, 0.03);
+  --tw-shadow-md: 0 2px 4px rgba(20, 22, 43, 0.03), 0 12px 24px -10px rgba(20, 22, 43, 0.12);
+  --tw-radius: 14px;
+  --tw-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 100%;
+  padding: 18px 20px 20px;
+  background: var(--tw-bg);
+  color: var(--tw-text);
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    sans-serif;
+}
+
+/* ------------------------------------------------------------------ 头部 */
+.tw-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.tw-hud__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tw-hud__meta h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 680;
+  letter-spacing: -0.01em;
+}
+
+.tw-hud__meta p {
+  margin: 6px 0 0;
+  max-width: 46ch;
+  color: var(--tw-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.tw-badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--tw-bg-soft);
+  color: var(--tw-muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.tw-badge[data-running='true'] {
+  background: var(--tw-success-soft);
+  color: var(--tw-success-text);
+}
+
+.tw-hud__right {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+  align-items: center;
+  gap: 12px;
+}
+
+.tw-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.tw-stats > div {
+  min-width: 72px;
+  padding: 8px 12px;
+  border: 1px solid var(--tw-border);
+  border-radius: 12px;
+  background: var(--tw-bg-soft);
+  text-align: center;
+}
+
+.tw-stats dt {
+  color: var(--tw-muted);
+  font-size: 11px;
+}
+
+.tw-stats dd {
+  margin: 2px 0 0;
+  font-size: 15px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ 布局切换 */
+.tw-layout-toggle {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--tw-border-strong);
+  border-radius: 11px;
+  background: var(--tw-bg-soft);
+}
+
+.tw-layout-toggle button {
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--tw-muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 160ms var(--tw-ease),
+    color 160ms var(--tw-ease);
+}
+
+.tw-layout-toggle button.is-active {
+  background: #fff;
+  color: var(--tw-brand-600);
+  box-shadow: var(--tw-shadow-sm);
+}
+
+/* ------------------------------------------------------------------ 按钮 */
+.tw-btn {
+  white-space: nowrap;
+  padding: 8px 14px;
+  border: 1px solid var(--tw-border-strong);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--tw-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 160ms var(--tw-ease),
+    border-color 160ms var(--tw-ease);
+}
+
+.tw-btn:hover {
+  background: var(--tw-bg-soft);
+}
+
+.tw-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tw-btn--primary {
+  border-color: var(--tw-brand-600);
+  background: var(--tw-brand-600);
+  color: #fff;
+}
+
+.tw-btn--primary:hover {
+  background: var(--tw-brand);
+}
+
+.tw-btn--ghost {
+  border-style: dashed;
+  color: var(--tw-muted);
+}
+
+.tw-btn--ghost[aria-pressed='true'] {
+  border-style: solid;
+  border-color: var(--tw-brand-600);
+  background: var(--tw-brand-soft);
+  color: var(--tw-brand-600);
+}
+
+/* ------------------------------------------------------------------ 画布 */
+.tw-canvas {
+  position: relative;
+  flex: 1;
+  min-height: 320px;
+  overflow: hidden;
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius);
+  background: #f7f8fc;
+  box-shadow: var(--tw-shadow-sm);
+}
+
+.tw-canvas__el {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.tw-canvas__el:active {
+  cursor: grabbing;
+}
+
+.tw-canvas__empty {
+  position: absolute;
+  inset: auto 0 22px;
+  text-align: center;
+  color: var(--tw-muted);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.tw-canvas__zoom {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--tw-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+/* 画布右上角的角度/缩放角标已经占了 top-right，工具条放左上 */
+.tw-canvas__tools {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid var(--tw-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--tw-shadow-sm);
+}
+
+.tw-tool {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tw-muted);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    color 140ms ease;
+}
+
+.tw-tool:hover {
+  background: var(--tw-brand-soft);
+  color: var(--tw-brand-600);
+}
+
+.tw-tool:focus-visible {
+  outline: 2px solid var(--tw-brand-600);
+  outline-offset: 1px;
+}
+
+.tw-tool[aria-pressed='true'] {
+  border-color: var(--tw-brand-600);
+  background: var(--tw-brand-soft);
+  color: var(--tw-brand-600);
+  font-weight: 650;
+}
+
+/* ------------------------------------------------------------------ 语音按钮 */
+.tw-mic {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--tw-border-strong);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--tw-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 160ms var(--tw-ease),
+    border-color 160ms var(--tw-ease),
+    color 160ms var(--tw-ease);
+}
+
+.tw-mic:hover {
+  background: var(--tw-bg-soft);
+}
+
+.tw-mic:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tw-mic--on {
+  border-color: var(--tw-brand-600);
+  background: var(--tw-brand-soft);
+  color: var(--tw-brand-600);
+}
+
+.tw-mic__icon {
+  display: block;
+}
+
+/* 实时回显正在听的话 */
+.tw-interim {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  background: var(--tw-brand-soft);
+  color: var(--tw-brand-600);
+  font-size: 13px;
+}
+
+.tw-interim__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tw-brand-600);
+  animation: tw-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes tw-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+}
+
+.tw-voice-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--tw-muted);
+}
+
+.tw-voice-note--err {
+  color: #c0392b;
+}
+
+/* ------------------------------------------------------------------ 输入 */
+.tw-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--tw-border);
+  border-radius: var(--tw-radius);
+  background: var(--tw-bg-soft);
+  box-shadow: var(--tw-shadow-sm);
+}
+
+.tw-input__row {
+  display: flex;
+  gap: 10px;
+}
+
+.tw-input__field {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--tw-border-strong);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--tw-text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.tw-input__field:focus-visible {
+  outline: 2px solid var(--tw-brand);
+  outline-offset: 1px;
+}
+
+.tw-input__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: var(--tw-muted);
+  font-size: 12px;
+}
+
+.tw-input__samples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tw-chip {
+  padding: 4px 10px;
+  border: 1px dashed var(--tw-border-strong);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--tw-muted);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    color 160ms var(--tw-ease),
+    border-color 160ms var(--tw-ease);
+}
+
+.tw-chip:hover {
+  border-color: var(--tw-brand);
+  color: var(--tw-brand-600);
+}
+
+/* ------------------------------------------------------------------ 全屏 */
+.tw-app:fullscreen {
+  padding: 22px 26px;
+  gap: 16px;
+}
+
+.tw-app:fullscreen .tw-canvas {
+  min-height: 0;
+  border-radius: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tw-btn,
+  .tw-chip {
+    transition-duration: 0.01ms;
+  }
+}
+
+.tw-debug {
+  margin: 0;
+  padding: 8px 16px;
+  font: 12px monospace;
+  color: #1d4ed8;
+  overflow-wrap: anywhere;
+}
+
+.tw-menu-toggle,
+.tw-start-backdrop {
+  display: none;
+}
+@media (max-width: 760px), (pointer: coarse) and (max-height: 520px) {
+  .tw-app[data-mobile] {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
+    background: #f7f8fc;
+  }
+  .tw-app[data-mobile] .tw-canvas {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    touch-action: none;
+  }
+  .tw-menu-toggle {
+    display: block;
+    position: absolute;
+    z-index: 40;
+    top: max(12px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    min-height: 44px;
+    box-shadow: 0 4px 20px #33415518;
+  }
+  .tw-mobile-panel {
+    position: absolute;
+    z-index: 35;
+    top: calc(max(12px, env(safe-area-inset-top)) + 52px);
+    right: max(12px, env(safe-area-inset-right));
+    width: min(340px, calc(100vw - 24px));
+    max-height: calc(100dvh - 100px - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    padding: 16px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background: #ffffffed;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 12px 40px #33415526;
+  }
+  .tw-mobile-panel[hidden] {
+    display: none;
+  }
+  .tw-mobile-panel .tw-hud {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .tw-mobile-panel .tw-hud__meta p {
+    display: none;
+  }
+  .tw-mobile-panel .tw-hud__right {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .tw-mobile-panel .tw-stats {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .tw-mobile-panel .tw-stats > div {
+    min-width: 50px;
+  }
+  .tw-mobile-panel button {
+    min-height: 44px;
+  }
+  .tw-mobile-camera .tw-canvas__tools {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .tw-mobile-panel .tw-input {
+    margin-top: 12px;
+    padding: 12px 0 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+  .tw-mobile-panel .tw-input__meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tw-mobile-panel .tw-input__samples {
+    flex-wrap: wrap;
+  }
+  .tw-start-backdrop {
+    display: grid;
+    position: absolute;
+    inset: 0;
+    z-index: 60;
+    place-items: center;
+    padding: 24px;
+    background: #eef0f8d9;
+    backdrop-filter: blur(12px);
+  }
+  .tw-start-dialog {
+    width: min(100%, 360px);
+    box-sizing: border-box;
+    padding: 28px;
+    border-radius: 24px;
+    background: white;
+    box-shadow: 0 20px 80px #33415520;
+  }
+  .tw-start-dialog h2 {
+    margin: 0 0 16px;
+    font-size: 24px;
+  }
+  .tw-start-dialog p {
+    line-height: 1.7;
+    color: #64748b;
+    font-size: 14px;
+  }
+  .tw-start-dialog .tw-layout-toggle {
+    margin: 20px 0;
+  }
+  .tw-start-dialog > button {
+    width: 100%;
+    min-height: 48px;
+  }
+  .tw-app[data-mobile] > .tw-debug,
+  .tw-app[data-mobile] > [role='alert'] {
+    position: absolute;
+    left: 12px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 25;
+    background: #fffffff0;
+    padding: 8px;
+    max-width: calc(100% - 40px);
+  }
+  .tw-canvas__empty {
+    padding: 30px;
+    text-align: center;
+  }
+  .tw-canvas__zoom {
+    bottom: max(12px, env(safe-area-inset-bottom));
+    top: auto;
+  }
+}
+@media (max-width: 760px), (pointer: coarse) and (max-height: 520px) {
+  .tw-mobile-status {
+    position: absolute;
+    z-index: 26;
+    left: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    max-width: calc(100% - 100px);
+    padding: 8px 12px;
+    border-radius: 14px;
+    background: #ffffffdf;
+    color: #64748b;
+    font-size: 13px;
+    pointer-events: none;
+  }
+  .tw-start-dialog {
+    max-height: calc(100dvh - 48px);
+    overflow-y: auto;
+  }
+}

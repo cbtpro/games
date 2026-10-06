@@ -1,0 +1,467 @@
+/**
+ * 空白游戏模板的界面。
+ *
+ * 设计令牌与主应用同源（4/8pt 网格、三层圆角、两层阴影、≤16 色），
+ * 但全部带 --tg- 前缀并支持 data-theme 切换 ——
+ * 子应用不依赖宿主的任何全局样式，独立运行时也长一个样。
+ */
+.template-game {
+  --tg-bg: #ffffff;
+  --tg-bg-soft: #f6f7fb;
+  --tg-border: #e4e6f1;
+  --tg-border-strong: #d3d6e6;
+  --tg-text: #14162b;
+  --tg-muted: #676e86;
+  --tg-brand: #5b54f2;
+  --tg-brand-600: #4a43e0;
+  --tg-brand-soft: #eef0ff;
+  --tg-danger: #d92d20;
+  --tg-danger-text: #b42318;
+  --tg-danger-soft: #fdeceb;
+  --tg-warn: #a55e0b;
+  --tg-warn-soft: #fdf3e3;
+  --tg-success-text: #0c7a40;
+  --tg-success-soft: #e6f6ed;
+  --tg-shadow-sm: 0 1px 2px rgba(20, 22, 43, 0.04), 0 1px 3px rgba(20, 22, 43, 0.03);
+  --tg-shadow-md: 0 2px 4px rgba(20, 22, 43, 0.03), 0 12px 24px -10px rgba(20, 22, 43, 0.12);
+  --tg-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 22px 24px;
+  min-height: 100%;
+  background: var(--tg-bg);
+  color: var(--tg-text);
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.template-game[data-theme='dark'] {
+  --tg-bg: #12142a;
+  --tg-bg-soft: #1b1e3c;
+  --tg-border: #2a2e55;
+  --tg-border-strong: #3a3f6e;
+  --tg-text: #e8eaf6;
+  --tg-muted: #a3a8c3;
+  --tg-brand: #8f89ff;
+  --tg-brand-600: #a5a0ff;
+  --tg-brand-soft: #262a55;
+  --tg-danger: #ff7d70;
+  --tg-danger-text: #ff9d93;
+  --tg-danger-soft: #33202b;
+  --tg-warn: #e5a355;
+  --tg-warn-soft: #32291a;
+  --tg-success-text: #6fd39a;
+  --tg-success-soft: #16301f;
+  --tg-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
+  --tg-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.28), 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* ------------------------------------------------------------ Hero */
+
+.tg-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--tg-bg-soft);
+  border: 1px solid var(--tg-border);
+  border-radius: 16px;
+}
+
+.tg-hero__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tg-hero__title h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.tg-hero__meta > p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--tg-muted);
+}
+
+.tg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--tg-brand-soft);
+  color: var(--tg-brand-600);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.tg-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+.tg-badge[data-tone='running'] {
+  background: var(--tg-success-soft);
+  color: var(--tg-success-text);
+}
+
+.tg-badge[data-tone='paused'],
+.tg-badge[data-tone='deactivated'] {
+  background: var(--tg-warn-soft);
+  color: var(--tg-warn);
+}
+
+.tg-badge[data-tone='over'],
+.tg-badge[data-tone='destroying'],
+.tg-badge[data-tone='destroyed'] {
+  background: var(--tg-danger-soft);
+  color: var(--tg-danger-text);
+}
+
+.tg-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.tg-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 76px;
+  padding: 10px 14px;
+  background: var(--tg-bg);
+  border: 1px solid var(--tg-border);
+  border-radius: 12px;
+  box-shadow: var(--tg-shadow-sm);
+}
+
+.tg-stat span {
+  font-size: 11px;
+  color: var(--tg-muted);
+}
+
+.tg-stat strong {
+  font-family: 'Space Grotesk', 'Manrope', system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.tg-stat--score strong {
+  color: var(--tg-brand-600);
+}
+
+.tg-hearts {
+  font-size: 14px;
+  color: var(--tg-danger-text);
+  letter-spacing: 2px;
+}
+
+/* ------------------------------------------------------------ 动作 */
+
+.tg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tg-btn {
+  min-height: 36px;
+  padding: 0 16px;
+  border: 1px solid var(--tg-border-strong);
+  border-radius: 10px;
+  background: var(--tg-bg);
+  color: var(--tg-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+  transition:
+    border-color 160ms var(--tg-ease),
+    background 160ms var(--tg-ease),
+    color 160ms var(--tg-ease),
+    transform 160ms var(--tg-ease),
+    box-shadow 160ms var(--tg-ease);
+}
+
+.tg-btn:hover:not(:disabled) {
+  border-color: var(--tg-brand);
+  color: var(--tg-brand);
+  transform: translateY(-1px);
+}
+
+.tg-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.tg-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(91, 84, 242, 0.2);
+}
+
+.tg-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tg-btn--primary {
+  background: var(--tg-brand);
+  border-color: var(--tg-brand);
+  color: #ffffff;
+  box-shadow: var(--tg-shadow-sm);
+}
+
+.tg-btn--primary:hover:not(:disabled) {
+  background: var(--tg-brand-600);
+  border-color: var(--tg-brand-600);
+  color: #ffffff;
+}
+
+.template-game[data-theme='dark'] .tg-btn--primary {
+  color: #12142a;
+}
+
+.template-game[data-theme='dark'] .tg-btn--primary:hover:not(:disabled) {
+  color: #12142a;
+}
+
+.tg-btn--accent {
+  background: var(--tg-brand-soft);
+  border-color: transparent;
+  color: var(--tg-brand-600);
+}
+
+.tg-btn--accent:hover:not(:disabled) {
+  background: var(--tg-brand);
+  border-color: var(--tg-brand);
+  color: #ffffff;
+}
+
+.template-game[data-theme='dark'] .tg-btn--accent:hover:not(:disabled) {
+  color: #12142a;
+}
+
+.tg-btn--danger {
+  color: var(--tg-danger-text);
+}
+
+.tg-btn--danger:hover:not(:disabled) {
+  background: var(--tg-danger-soft);
+  border-color: var(--tg-danger-text);
+  color: var(--tg-danger-text);
+}
+
+/* 带图标的次要操作（全屏等） */
+.tg-btn--ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-style: dashed;
+}
+
+.tg-btn--ghost svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.tg-btn--ghost[aria-pressed='true'] {
+  border-style: solid;
+  border-color: var(--tg-brand);
+  background: var(--tg-brand-soft);
+  color: var(--tg-brand-600);
+}
+
+/* ------------------------------------------------------------ 面板 */
+
+.tg-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  min-height: 0;
+}
+
+.tg-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--tg-border);
+  border-radius: 16px;
+  background: var(--tg-bg);
+  box-shadow: var(--tg-shadow-sm);
+  overflow: hidden;
+}
+
+.tg-panel__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--tg-border);
+  background: var(--tg-bg-soft);
+}
+
+.tg-panel__head h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  color: var(--tg-muted);
+}
+
+.tg-panel__tag,
+.tg-panel__count {
+  margin-left: auto;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--tg-brand-soft);
+  color: var(--tg-brand-600);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.tg-panel > pre {
+  margin: 0;
+  padding: 14px 16px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--tg-text);
+  overflow: auto;
+  max-height: 260px;
+}
+
+/* ------------------------------------------------------------ 时间线 */
+
+.tg-timeline {
+  position: relative;
+  margin: 0;
+  padding: 12px 16px 14px 18px;
+  list-style: none;
+  font-size: 12px;
+  overflow: auto;
+  max-height: 260px;
+}
+
+.tg-timeline li {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 5px 0 5px 16px;
+}
+
+.tg-timeline li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 20px;
+  bottom: -6px;
+  width: 1px;
+  background: var(--tg-border);
+}
+
+.tg-timeline__dot {
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tg-border-strong);
+}
+
+.tg-timeline li.is-latest .tg-timeline__dot {
+  background: var(--tg-brand);
+  box-shadow: 0 0 0 3px var(--tg-brand-soft);
+}
+
+.tg-timeline time {
+  flex-shrink: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--tg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tg-timeline__label {
+  font-weight: 550;
+}
+
+.tg-empty {
+  margin: 0;
+  padding: 18px 16px 22px;
+  font-size: 12px;
+  color: var(--tg-muted);
+  text-align: center;
+}
+
+/* ------------------------------------------------------------ 全屏 */
+
+/* 全屏时元素自己接管整屏：铺满、可滚动，并放开面板的高度限制 */
+.template-game:fullscreen {
+  width: 100%;
+  height: 100%;
+  padding: 24px 28px 32px;
+  overflow: auto;
+}
+
+.template-game:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+  padding: 24px 28px 32px;
+  overflow: auto;
+}
+
+.template-game:fullscreen .tg-body,
+.template-game:-webkit-full-screen .tg-body {
+  align-content: start;
+}
+
+.template-game:fullscreen .tg-panel > pre,
+.template-game:fullscreen .tg-timeline,
+.template-game:-webkit-full-screen .tg-panel > pre,
+.template-game:-webkit-full-screen .tg-timeline {
+  max-height: none;
+}
+
+/* ------------------------------------------------------------ 响应式 */
+
+@media (max-width: 720px) {
+  .tg-body {
+    grid-template-columns: 1fr;
+  }
+
+  .tg-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tg-btn {
+    transition-duration: 0.01ms;
+  }
+}

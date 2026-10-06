@@ -1,0 +1,32 @@
+node_modules/
+dist/
+build/
+coverage/
+.turbo/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+.env
+.env.local
+.env.*.local
+.vite/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.tsbuildinfo
+
+.history/
+
+# 语义模型（体积大，用 scripts/fetch-semantic-model.mjs 下载，不入库）
+apps/games/*/public/models/
+
+# 本地 HTTPS 证书及私钥
+/certs/
+
+# 本地编辑历史与工作助手数据
+/.history/
+/.workbuddy/
+
+# 助手截图、需求及过程记录
+/AI/

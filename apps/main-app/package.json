@@ -1,0 +1,27 @@
+{
+  "name": "@games/main-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "游戏平台主应用（qiankun 主应用）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 7100 --strictPort",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@games/shared": "workspace:*",
+    "qiankun": "^2.10.16",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
+  }
+}

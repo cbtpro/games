@@ -1,0 +1,30 @@
+{
+  "name": "games-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "前后端分离的微前端互联网游戏平台（pnpm + NestJS + TypeORM + MySQL + React + qiankun）",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "build:libs": "pnpm -r --filter \"./packages/**\" run build",
+    "watch:libs": "pnpm -r --parallel --filter \"./packages/**\" run dev",
+    "dev": "pnpm run build:libs && pnpm -r --parallel --if-present run dev",
+    "dev:server": "pnpm --filter @games/server run dev",
+    "dev:host": "pnpm --filter @games/main-app run dev",
+    "dev:game": "pnpm --filter game-template run dev",
+    "build": "pnpm run build:libs && pnpm -r --filter \"./apps/main-app\" --filter \"./apps/games/*\" run build",
+    "start": "pnpm -r --parallel --if-present run preview",
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "db:init": "bash scripts/init-db.sh",
+    "new:game": "node scripts/create-game.mjs",
+    "certs:generate": "node scripts/dev-https.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
+}

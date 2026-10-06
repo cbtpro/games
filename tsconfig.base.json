@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "@games/shared": ["packages/shared/src"],
+      "@games/shared/*": ["packages/shared/src/*"],
+      "@games/sdk": ["packages/sdk/src"],
+      "@games/sdk/*": ["packages/sdk/src/*"],
+      "@games/ai": ["packages/ai/src"],
+      "@games/ai/*": ["packages/ai/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build"]
+}

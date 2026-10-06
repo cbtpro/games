@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>空白游戏模板 · 独立调试</title>
+    <style>
+      /* 独立调试时的页面底色，与子应用浅色主题同源；被主应用加载时会被沙箱隔离，不生效 */
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #f6f7fb;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 独立运行时的挂载点，id 刻意与主应用的 #root 区分，避免互相抢占 -->
+    <div id="game-root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
